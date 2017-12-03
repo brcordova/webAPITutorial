@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Productos</title>
+</head>
+<body>
+    <div>
+        <h2>Agregar un nuevo producto.</h2>
+        <input type="text" id="input_nombre" size="20"/>
+        <input type="text" id="input_precio" size="20" />
+        <input type="text" id="input_unidades" size="20" />
+        <input type="button" value="Agregar" onclick="add();" />
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        function add() {
+            var nombre = $('#input_nombre').val();
+            var precio = $('#input_precio').val();
+            var unidades = $('#input_unidades').val();
+
+            if (nombre != '' && precio != '' && unidades != '')
+            {
+                var Producto = {
+                    Nombre = nombre,
+                    Precio = precio,
+                    UnidadesEnAlmacen = unidades
+                };
+
+                var info = JSON.stringify(Producto);
+
+                $.ajax({
+                    url: 'services/Productos',
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: info,
+                    dataType: 'json',
+                    success: function (data) {
+                        alert('El registro se agrego con éxito.!!');
+                        location.reload();
+                    }
+                }).fail(
+                    function (xhr, testStatus, err) {
+                        alert(err);
+                    });
+
+            }
+            else
+            { alert("Todos los campos son obligatorios."); };
+
+        };
+    </script>
+
+</body>
+</html>
